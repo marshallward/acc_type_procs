@@ -25,6 +25,11 @@ interface
     real, intent(in) :: y(:)
   end subroutine Iproc
 
+  subroutine Iproc_scalar(x, y)
+    real, intent(inout) :: x
+    real, intent(in) :: y
+  end subroutine Iproc_scalar
+
   subroutine Iproc_class(eos, x, y)
     import :: eos_proc_poly_ptr
     class(eos_proc_poly_ptr) :: eos
@@ -63,5 +68,13 @@ subroutine add_proc_poly_ptr(eos, x, y)
   x(:) = x(:) + y(:)
   !$acc end kernels
 end subroutine add_proc_poly_ptr
+
+subroutine add_scalar(x, y)
+  !$acc routine
+  real, intent(inout) :: x
+  real, intent(in) :: y
+
+  x = x + y
+end subroutine add_scalar
 
 end module eos_mod
